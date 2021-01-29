@@ -1,0 +1,115 @@
+/*Database Creation*/
+create database Ejada;
+
+/*Department Table Creation*/
+create table ejada.Department(
+	
+DepartmentID INT NOT NULL AUTO_INCREMENT,
+    
+department_name VARCHAR(100) NOT NULL,
+    
+PRIMARY KEY ( DepartmentID )
+    
+);
+
+
+/*Employee Roles Table Creation*/
+/*1 to many relationship with Employee*/
+create table ejada.role(
+
+RoleID INT NOT NULL auto_increment,
+
+RoleName varchar(50) not null,
+
+primary key(RoleID)
+
+);
+
+
+/*Employee Table Creation*/
+/*many to 1 relationship with Department*/
+/*many to 1 relationship with Role*/
+/*many to 1 relationship with Employee, Manager to employee relation*/
+create table ejada.Employee(
+   
+EmployeeID INT NOT NULL AUTO_INCREMENT,
+   
+employee_name VARCHAR(100) NOT NULL,
+   
+phone VARCHAR(100) NOT NULL,
+   
+email VARCHAR(100) NOT NULL,
+   
+age INT(2) NOT NULL,
+   
+DepartmentID INT NOT NULL,
+   
+DirectManager INT REFERENCES Employee(EmployeeID),
+
+RoleID int not null,   
+PRIMARY KEY ( EmployeeID ),
+   
+FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+,
+foreign key (RoleID) references ejada.role(RoleId)
+);
+
+
+/*Add Employee Forigen key after creating the employee table*/
+/*1 to many relationship with Employee, Department manager relation*/
+ALTER TABLE ejada.Department
+
+ADD EmployeeID INT,
+
+ADD FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID);
+
+
+
+
+
+
+/*Authinecation Table Creation*/
+create table ejada.Auth(
+
+AuthID int not null auto_increment,
+
+email varchar(100) not null,
+
+password varchar(100) not null,
+
+primary key (AuthID)
+
+);
+
+
+
+
+/*Insert some data*/
+INSERT INTO ejada.Role (RoleName) values ('General Manager');
+
+INSERT INTO ejada.Role (RoleName) values ('Department Manager');
+
+INSERT INTO ejada.Role (RoleName) values ('Employee');
+
+
+INSERT INTO ejada.department (department_name) values ('Main Unit');
+
+
+select* from ejada.department;
+INSERT INTO ejada.employee (employee_name,phone,email,age,DepartmentID,RoleID) values ('Rania Abd El-Naser','+501287468','rgad@ejada.com','35','1','1');
+
+UPDATE ejada.department 
+
+SET 
+    
+EmployeeID = 1
+
+WHERE
+    
+DepartmentID = 1;
+
+
+/*Test Tables*/
+select* from ejada.employee;
+
+select* from ejada.role;
